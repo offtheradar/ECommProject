@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+char *getinput(char *input);
+
+int main(int argc, char *argv[]){
+long len;
+char username[100], password[100];  
+char buf[BUFSIZ];                  
+char *user_file, *pass_file;       /* Buffers for values in file */
+char *  pathmem = "Members.csv";
+char * pathuser = "LoggedIn.csv";  
+FILE * fp = fopen(pathmem, "r" );
+FILE * gp = fopen(pathuser, "a");
+char input[400];
+int ok = 0;
+
+length = getenv("CONTENT_LENGTH"); /* <- if the env var QUERY_STRING is not set... */
+
+printf("%s%c%c\n","Content-Type:text/html;charset=iso-8859-1",13,10);
+printf("<html>");
+
+ if (length == NULL || sscanf(length,"%ld",&len) != 1 || len > 40) {
+                printf("<p>Error passing data form to script!");
+        } else {
+                
+		fgets(input,len+1,stdin);
+                char *ignore, *temp;
+                char *username, *password;
+                user_file = strtok(input, "&");
+                user_file = strtok(NULL, "&");
+                temp = ignore;
+                username = getdata(input);
+                password = getdata(temp);
+
+/* Loop through the file */
+		while (fgets(line, 192, file)) {
+	
+			user_file = strtok(line, ",");
+			user_file = strtok(NULL, ",");
+
+			if(strcmp(user_file, username) == 0){
+				user_file = strtok(NULL, ",");
+				if (user_file[strlen(password)] = '\n') { user_file[strlen(password)] = '\0';        }   
+				if(strcmp(password, user_file)  == 0){ ok = 1; }
+			}
+		}fclose(fp);
+		 
+		if (ok == 0){
+		  
+		  printf("<title>WRONG INFORMATION</title><br>\n");
+	      	  printf("<center>THERE HAS BEEN A PROBLEM WITH YOUR LOGIN<br>");
+		  printf("<a href=\"http://cs.mcgill.ca/~ysibou/\">Return to the homepage</a> <a href=\"http://cs.mcgill.ca/~ysibou/login.html\">Try again!</a></center>");
+		  printf("</body>");
+		 
+		     			} else {
+		  
+		  fprintf(gp, "%s\n",username);
+		  fclose(gp);
+
+		  
+		}
+
+}  
+
+
+/* End main() */
+
+char *getinput(char *input) {
+        char  *next;
+        next = strtok(input, "=");
+        next = strtok(NULL, "=");
+        return next;
+}
